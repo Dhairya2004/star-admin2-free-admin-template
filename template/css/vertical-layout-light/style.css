@@ -25837,7 +25837,7 @@ dl li {
 .tab-content {
   border: 1px solid #dee2e6;
   border-top: 0;
-  padding: 2rem 1rem;
+  padding: 0 1rem;
   text-align: justify;
 }
 

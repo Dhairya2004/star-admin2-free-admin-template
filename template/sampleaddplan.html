@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dynamic Form</title>
+  </head>
+  <body>
+    <form id="myForm">
+      <div id="days"></div>
+      <button onclick="addDay(event)">Add Day</button>
+      <button onclick="removeDay(event)">Remove Day</button>
+      <br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <script>
+      let dayCount = 0;
+
+      function addDay(event) {
+        event.preventDefault();
+
+        dayCount++;
+
+        const daysDiv = document.getElementById("days");
+
+        const dayDiv = document.createElement("div");
+        dayDiv.id = `day${dayCount}`;
+
+        const dayLabel = document.createElement("label");
+        dayLabel.innerHTML = `Day ${dayCount}: `;
+        dayDiv.appendChild(dayLabel);
+
+        const imgInput = document.createElement("input");
+        imgInput.type = "text";
+        imgInput.name = `day${dayCount}-img`;
+        imgInput.placeholder = "Image URL";
+        dayDiv.appendChild(imgInput);
+
+        const activityDiv = document.createElement("div");
+        activityDiv.id = `day${dayCount}-activities`;
+
+        
+        const addActivityButton = document.createElement("button");
+        addActivityButton.innerHTML = "Add Activity";
+        addActivityButton.onclick = (event) => {
+          event.preventDefault();
+          const dayId = event.target.parentNode.parentNode.id;
+          addActivity(dayId);
+        };
+        activityDiv.appendChild(addActivityButton);
+
+        dayDiv.appendChild(activityDiv);
+
+        daysDiv.appendChild(dayDiv);
+        addActivity(`day${dayCount}`);
+      }
+
+      function removeDay(event) {
+        event.preventDefault();
+
+        if (dayCount > 0) {
+          const daysDiv = document.getElementById("days");
+          const dayDiv = document.getElementById(`day${dayCount}`);
+          daysDiv.removeChild(dayDiv);
+          dayCount--;
+        }
+      }
+
+      function addActivity(dayId) {
+        const activityDiv = document.createElement("div");
+        activityDiv.className = "activity";
+
+        const activityCount = document.querySelectorAll(`#${dayId} .activity`).length + 1;
+
+        const activityLabel = document.createElement("label");
+        activityLabel.innerHTML = `Activity ${activityCount}: `;
+        activityDiv.appendChild(activityLabel);
+
+        const activityInput1 = document.createElement("input");
+        activityInput1.type = "text";
+        activityInput1.name = `${dayId}-activity${activityCount}-title`;
+        activityInput1.placeholder = "Activity Title";
+        activityDiv.appendChild(activityInput1);
+
+        const activityInput2 = document.createElement("input");
+        activityInput2.type = "text";
+        activityInput2.name = `${dayId}-activity${activityCount}-desc`;
+        activityInput2.placeholder = "Activity Description";
+        activityDiv.appendChild(activityInput2);
+
+        const activityInput3 = document.createElement("input");
+        activityInput3.type = "time";
+        activityInput3.name = `${dayId}-activity${activityCount}-timefrom`;
+        activityDiv.appendChild(activityInput3);
+
+        const activityInput4 = document.createElement("input");
+        activityInput4.type = "time";
+        activityInput4.name = `${dayId}-activity${activityCount}-timeto`;
+        activityDiv.appendChild(activityInput4);
+
+        const removeActivityButton = document.createElement("button");
+        removeActivityButton.innerHTML = "Remove Activity";
+        removeActivityButton.onclick = (event) => {
+          event.preventDefault();
+          const activityDiv = event.target.parentNode;
+          activityDiv.parentNode.removeChild(activityDiv);
+        };
+        activityDiv.appendChild(removeActivityButton);
+
+        const dayDiv = document.getElementById(dayId);
+        dayDiv.querySelector(`#${dayId}-activities`).appendChild(activityDiv);
+      }
+    </script>
+  </body>
+</html>
